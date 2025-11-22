@@ -8,7 +8,6 @@ if (isset($_SESSION['usuario_logado']) && $_SESSION['usuario_logado'] === true) 
 }
 ?>
 
-?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -62,7 +61,7 @@ if (isset($_SESSION['usuario_logado']) && $_SESSION['usuario_logado'] === true) 
                        id="senha" 
                        name="senha" 
                        type="password" 
-                       placeholder="******************" 
+                       placeholder="********" 
                        required>
             </div>
 

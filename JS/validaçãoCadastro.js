@@ -15,9 +15,9 @@ document.addEventListener("DOMContentLoaded", function(){
         return;
         }
 
-    if(senha.value.legth < 8){
+    if(senha.value.length < 5){
         event.preventDefault();
-        mensagem.textContent = "A senha deve ter no mínimo 8 caracteres";
+        mensagem.textContent = "A senha deve ter no mínimo 5 caracteres";
         mensagem.classlist.add('text-red-500', 'font-bold', 'mt-2');
         return;
     }

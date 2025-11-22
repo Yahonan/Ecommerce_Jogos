@@ -17,13 +17,13 @@ if ($resultado) {
 };
 
 $nome_usuario = null;
-if (isset($_SESSION['usuario_logado']) && $_SESSION['usuario_'] === true){
+
+if (isset($_SESSION['usuario_logado']) && $_SESSION['usuario_logado'] === true){
     $nome_usuario = $_SESSION['usuario_nome'];
 
 } 
 
 $conn->close();
-
 
 ?>
 
@@ -52,7 +52,7 @@ $conn->close();
                 </div>
 
                 <div class="ml-auto">
-                    <?php if ($nome_usuario): // Se $nome_usuario NÃO for nulo (usuário logado) ?>
+                    <?php if ($nome_usuario):  ?>
                         
                         <div class="flex items-center">
                             <span class="text-gray-300 text-sm mr-4">
@@ -61,7 +61,7 @@ $conn->close();
                             <a href="logout.php" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md text-sm font-medium">Sair</a>
                         </div>
 
-                    <?php else: // Usuário NÃO está logado ?>
+                    <?php else:  ?>
                         
                         <div class="flex items-center space-x-2">
                             <a href="login.php" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-md text-sm font-medium">Login</a>
@@ -74,6 +74,7 @@ $conn->close();
             </div>
         </div>
     </nav>
+    
     <main class="max-w-7xl mx-auto py-12 sm:px-6 lg:px-8">
         
         <h1 class="text-3xl font-bold text-indigo-400 mb-8 px-4 sm:px-0">Nossos Jogos</h1>
@@ -107,16 +108,18 @@ $conn->close();
                                 R$ <?php echo number_format($jogo['preco'], 2, ',', '.'); ?>
                             </p>
 
-                            <a href="#" class="w-full text-center block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                                Ver Detalhes
+                            <a href="detalhe.php?id=<?php echo $jogo['id']; ?>" 
+                                class="w-full text-center block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                    Ver Detalhes
                             </a>
                         </div>
                     </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
 
         </div>
-        </main>
+    </main>
+    
     <footer class="bg-gray-800 mt-12">
         <div class="max-w-7xl mx-auto py-6 px-4 text-center text-gray-500">
             <p>&copy;2025 E-commerce de Jogos</p>
@@ -124,4 +127,4 @@ $conn->close();
     </footer>
 
 </body>
-</html>
+</html> 
