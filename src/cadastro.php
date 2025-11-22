@@ -15,13 +15,13 @@ if (isset($_SESSION['usuario_logado']) && $_SESSION['usuario_logado'] === true) 
     <title>Cadastro - E-commerce de Jogos</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="JS/validaçãoCadastro.js" defer></script>
+    <script src="../JS/validaçãoCadastro.js" defer></script>
 </head>
 <body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
 
     <div class="w-full max-w-sm">
         
-        <form action="processarCadastro.php" method="POST" class="bg-gray-800 shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
+        <form id="cadastroForm" action="processarCadastro.php" method="POST" class="bg-gray-800 shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
             
             <h1 class="text-3xl font-bold text-center mb-6 text-indigo-400">GAME STORE</h1>
             <h2 class="text-xl text-center mb-8">Crie sua Conta</h2>
