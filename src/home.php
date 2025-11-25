@@ -78,15 +78,19 @@ $conn->close();
                             <svg class="h-5 w-5 text-slate-500 group-focus-within:text-indigo-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </div>
                         <input type="text" name="busca" 
-                                value="<?php echo htmlspecialchars($busca); ?>"
-                                class="block w-full pl-10 pr-3 py-2.5 border border-slate-700 rounded-full leading-5 bg-slate-900 text-gray-300 placeholder-slate-500 focus:outline-none focus:bg-slate-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm transition duration-200" 
-                                placeholder="Buscar jogos...">
+                               value="<?php echo htmlspecialchars($busca); ?>"
+                               class="block w-full pl-10 pr-3 py-2.5 border border-slate-700 rounded-full leading-5 bg-slate-900 text-gray-300 placeholder-slate-500 focus:outline-none focus:bg-slate-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm transition duration-200" 
+                               placeholder="Buscar jogos...">
                     </form>
                 </div>
 
-                <div class="ml-auto flex items-center space-x-6">
+                <div class="ml-auto flex items-center space-x-4 md:space-x-6">
                     
-                    <a href="carrinho_view.php" class="relative group p-2 text-slate-400 hover:text-white transition">
+                    <a href="wishlist.php" class="relative group p-2 text-slate-400 hover:text-red-500 transition duration-300" title="Minha Lista de Desejos">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    </a>
+
+                    <a href="carrinho_view.php" class="relative group p-2 text-slate-400 hover:text-white transition" title="Meu Carrinho">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                         <?php if($total_itens_carrinho > 0): ?>
                             <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-indigo-600 rounded-full"><?php echo $total_itens_carrinho; ?></span>
@@ -94,17 +98,20 @@ $conn->close();
                     </a>
 
                     <?php if ($nome_usuario): ?>
-                        <a href="wishlist.php" class="relative group p-2 text-red-500 hover:text-red-400 transition" title="Lista de Desejos">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                        </a>
-                        
                         <div class="flex items-center gap-4">
-                            <div class="text-right hidden sm:block">
+                            
+                            <a href="meus_pedidos.php" class="hidden md:flex items-center gap-2 text-indigo-400 hover:text-white border border-indigo-500/20 hover:bg-indigo-600 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                                <span>Meus Pedidos</span>
+                            </a>
+
+                            <div class="text-right hidden lg:block">
                                 <p class="text-xs text-slate-400 uppercase font-bold">Bem-vindo</p>
                                 <p class="text-sm font-semibold text-white"><?php echo htmlspecialchars($nome_usuario); ?></p>
                             </div>
-                            <a href="logout.php" class="text-red-400 hover:text-white border border-red-500/20 hover:bg-red-500 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300">
-                                Sair
+                            <a href="logout.php" class="text-red-400 hover:text-white border border-red-500/20 hover:bg-red-500 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300" title="Sair">
+                                <svg class="w-5 h-5 md:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                                <span class="hidden md:inline">Sair</span>
                             </a>
                         </div>
                     <?php else: ?>
@@ -117,22 +124,32 @@ $conn->close();
             </div>
         </div>
         
-        <div class="md:hidden px-4 pb-4 border-t border-slate-800 pt-4">
+        <div class="md:hidden px-4 pb-4 border-t border-slate-800 pt-4 space-y-3">
             <form action="home.php" method="GET">
                 <input type="text" name="busca" value="<?php echo htmlspecialchars($busca); ?>" class="block w-full py-2 px-4 rounded-lg bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="Buscar jogos...">
             </form>
+            <?php if ($nome_usuario): ?>
+                <a href="meus_pedidos.php" class="block text-center w-full bg-slate-800 text-white py-2 rounded-lg hover:bg-slate-700">Meus Pedidos</a>
+                <a href="wishlist.php" class="block text-center w-full bg-slate-800 text-white py-2 rounded-lg hover:bg-slate-700">Minha Lista de Desejos</a>
+            <?php endif; ?>
         </div>
     </nav>
 
     <?php if(isset($_GET['sucesso']) && $_GET['sucesso'] == 'adicionado'): ?>
-        <div class="bg-green-500 text-white text-center py-2 font-bold">
+        <div class="bg-green-500/20 border-b border-green-500 text-green-300 text-center py-3 font-bold backdrop-blur-sm">
             Jogo adicionado ao carrinho com sucesso!
         </div>
     <?php endif; ?>
 
+    <?php if(isset($_GET['alerta']) && $_GET['alerta'] == 'carrinho_vazio'): ?>
+        <div class="bg-yellow-500/20 border-b border-yellow-500 text-yellow-300 text-center py-3 font-bold backdrop-blur-sm">
+            Seu carrinho está vazio. Adicione jogos para continuar!
+        </div>
+    <?php endif; ?>
+
     <?php if (isset($_GET['status_wishlist'])): ?>
-        <div class="text-white text-center py-2 font-bold 
-            <?php echo ($_GET['status_wishlist'] == 'removido') ? 'bg-red-600' : 'bg-indigo-600'; ?>">
+        <div class="text-center py-3 font-bold backdrop-blur-sm border-b 
+            <?php echo ($_GET['status_wishlist'] == 'removido') ? 'bg-red-500/20 border-red-500 text-red-300' : 'bg-indigo-500/20 border-indigo-500 text-indigo-300'; ?>">
             <?php 
                 if ($_GET['status_wishlist'] == 'removido') {
                     echo "Jogo removido da sua Lista de Desejos.";
@@ -142,7 +159,6 @@ $conn->close();
             ?>
         </div>
     <?php endif; ?>
-
 
     <?php if(empty($busca)): ?>
     <div class="relative bg-slate-900 overflow-hidden border-b border-slate-800">
@@ -249,4 +265,4 @@ $conn->close();
     </footer>
 
 </body>
-</html>    
+</html>
