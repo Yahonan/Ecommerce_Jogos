@@ -2,7 +2,6 @@
 session_start();
 require_once 'conexao.php';
 
-// Redireciona se vazio, mas permite visualização se tiver itens
 if (!isset($_SESSION['carrinho']) || empty($_SESSION['carrinho'])) {
     header("Location: home.php?alerta=carrinho_vazio");
     exit();
