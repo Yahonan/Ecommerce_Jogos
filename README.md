@@ -51,7 +51,7 @@ Copie todos os arquivos `.php` para o diretório raiz do seu projeto no servidor
 | **`carrinho.php`** | **Processamento** | Lógica para gerenciar o carrinho de compras (adicionar, remover, aumentar/reduzir quantidade) utilizando a `$_SESSION`. |
 | **`processar_wishlist.php`** | **Processamento** | Lógica para adicionar ou remover jogos da lista de desejos (`wishlist` no DB). |
 | **`processar_avaliacao.php`**| **Processamento** | Lógica para registrar ou atualizar a avaliação (nota/comentário) do usuário no banco de dados. Utiliza `ON DUPLICATE KEY UPDATE`. |
-| **`validaçãoCadastro.js`** | **JavaScript** | Validação de Formulário no cliente para o `cadastro.php`. Garante que as senhas **coincidam** e tenham **mínimo de 8 caracteres** antes do envio. |
+| **`validaçãoCadastro.js`** | **JavaScript** | **Validação de Formulário Completa** no cliente para o `cadastro.php`. Garante que o **e-mail seja válido**, as senhas **coincidam** e tenham **mínimo de 5 caracteres** antes do envio. |
 | **`rating.js`** | **JavaScript** | Sistema Interativo de Avaliação (estrelas) para a página `detalhe.php`. Gerencia a visualização de estrelas (preenchidas/vazias) ao clicar ou passar o mouse. |
 
 ---
