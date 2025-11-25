@@ -22,8 +22,25 @@ if ($resultado) {
 }
 
 $nome_usuario = null;
+$jogos_na_wishlist = []; 
+
 if (isset($_SESSION['usuario_logado']) && $_SESSION['usuario_logado'] === true){
     $nome_usuario = $_SESSION['usuario_nome'];
+    $usuario_id = $_SESSION['usuario_id']; 
+
+    $sql_wishlist = "SELECT jogo_id FROM wishlist WHERE usuario_id = ?";
+    $stmt_wishlist = $conn->prepare($sql_wishlist);
+    
+    if ($stmt_wishlist) {
+        $stmt_wishlist->bind_param("i", $usuario_id);
+        $stmt_wishlist->execute();
+        $resultado_wishlist = $stmt_wishlist->get_result();
+        
+        while ($row = $resultado_wishlist->fetch_assoc()) {
+            $jogos_na_wishlist[$row['jogo_id']] = true;
+        }
+        $stmt_wishlist->close();
+    }
 } 
 
 $total_itens_carrinho = 0;
@@ -61,19 +78,15 @@ $conn->close();
                             <svg class="h-5 w-5 text-slate-500 group-focus-within:text-indigo-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </div>
                         <input type="text" name="busca" 
-                               value="<?php echo $busca; ?>"
-                               class="block w-full pl-10 pr-3 py-2.5 border border-slate-700 rounded-full leading-5 bg-slate-900 text-gray-300 placeholder-slate-500 focus:outline-none focus:bg-slate-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm transition duration-200" 
-                               placeholder="Buscar jogos...">
+                                value="<?php echo htmlspecialchars($busca); ?>"
+                                class="block w-full pl-10 pr-3 py-2.5 border border-slate-700 rounded-full leading-5 bg-slate-900 text-gray-300 placeholder-slate-500 focus:outline-none focus:bg-slate-800 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 sm:text-sm transition duration-200" 
+                                placeholder="Buscar jogos...">
                     </form>
                 </div>
 
-                <div class="ml-auto flex items-center space-x-4 md:space-x-6">
+                <div class="ml-auto flex items-center space-x-6">
                     
-                    <a href="wishlist.php" class="relative group p-2 text-slate-400 hover:text-red-500 transition duration-300" title="Minha Lista de Desejos">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-                    </a>
-
-                    <a href="carrinho_view.php" class="relative group p-2 text-slate-400 hover:text-white transition" title="Meu Carrinho">
+                    <a href="carrinho_view.php" class="relative group p-2 text-slate-400 hover:text-white transition">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                         <?php if($total_itens_carrinho > 0): ?>
                             <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-indigo-600 rounded-full"><?php echo $total_itens_carrinho; ?></span>
@@ -81,20 +94,17 @@ $conn->close();
                     </a>
 
                     <?php if ($nome_usuario): ?>
+                        <a href="wishlist.php" class="relative group p-2 text-red-500 hover:text-red-400 transition" title="Lista de Desejos">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        </a>
+                        
                         <div class="flex items-center gap-4">
-                            
-                            <a href="meus_pedidos.php" class="hidden md:flex items-center gap-2 text-indigo-400 hover:text-white border border-indigo-500/20 hover:bg-indigo-600 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
-                                <span>Meus Pedidos</span>
-                            </a>
-
-                            <div class="text-right hidden lg:block">
+                            <div class="text-right hidden sm:block">
                                 <p class="text-xs text-slate-400 uppercase font-bold">Bem-vindo</p>
                                 <p class="text-sm font-semibold text-white"><?php echo htmlspecialchars($nome_usuario); ?></p>
                             </div>
-                            <a href="logout.php" class="text-red-400 hover:text-white border border-red-500/20 hover:bg-red-500 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300" title="Sair">
-                                <svg class="w-5 h-5 md:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-                                <span class="hidden md:inline">Sair</span>
+                            <a href="logout.php" class="text-red-400 hover:text-white border border-red-500/20 hover:bg-red-500 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300">
+                                Sair
                             </a>
                         </div>
                     <?php else: ?>
@@ -107,28 +117,32 @@ $conn->close();
             </div>
         </div>
         
-        <div class="md:hidden px-4 pb-4 border-t border-slate-800 pt-4 space-y-3">
+        <div class="md:hidden px-4 pb-4 border-t border-slate-800 pt-4">
             <form action="home.php" method="GET">
-                <input type="text" name="busca" value="<?php echo $busca; ?>" class="block w-full py-2 px-4 rounded-lg bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="Buscar jogos...">
+                <input type="text" name="busca" value="<?php echo htmlspecialchars($busca); ?>" class="block w-full py-2 px-4 rounded-lg bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="Buscar jogos...">
             </form>
-            <?php if ($nome_usuario): ?>
-                <a href="meus_pedidos.php" class="block text-center w-full bg-slate-800 text-white py-2 rounded-lg">Meus Pedidos</a>
-                <a href="wishlist.php" class="block text-center w-full bg-slate-800 text-white py-2 rounded-lg">Minha Lista de Desejos</a>
-            <?php endif; ?>
         </div>
     </nav>
 
     <?php if(isset($_GET['sucesso']) && $_GET['sucesso'] == 'adicionado'): ?>
-        <div class="bg-green-500/20 border-b border-green-500 text-green-300 text-center py-3 font-bold backdrop-blur-sm">
+        <div class="bg-green-500 text-white text-center py-2 font-bold">
             Jogo adicionado ao carrinho com sucesso!
         </div>
     <?php endif; ?>
 
-    <?php if(isset($_GET['alerta']) && $_GET['alerta'] == 'carrinho_vazio'): ?>
-        <div class="bg-yellow-500/20 border-b border-yellow-500 text-yellow-300 text-center py-3 font-bold backdrop-blur-sm">
-            Seu carrinho está vazio. Adicione jogos para continuar!
+    <?php if (isset($_GET['status_wishlist'])): ?>
+        <div class="text-white text-center py-2 font-bold 
+            <?php echo ($_GET['status_wishlist'] == 'removido') ? 'bg-red-600' : 'bg-indigo-600'; ?>">
+            <?php 
+                if ($_GET['status_wishlist'] == 'removido') {
+                    echo "Jogo removido da sua Lista de Desejos.";
+                } elseif ($_GET['status_wishlist'] == 'adicionado') {
+                    echo "Jogo adicionado à sua Lista de Desejos!";
+                }
+            ?>
         </div>
     <?php endif; ?>
+
 
     <?php if(empty($busca)): ?>
     <div class="relative bg-slate-900 overflow-hidden border-b border-slate-800">
@@ -152,7 +166,7 @@ $conn->close();
         <div class="flex items-center justify-between mb-10">
             <h2 class="text-2xl font-bold text-white flex items-center gap-3">
                 <span class="w-2 h-8 bg-indigo-500 rounded-full"></span>
-                <?php echo !empty($busca) ? "Resultados para: <span class='text-indigo-400'>\"$busca\"</span>" : "Catálogo em Destaque"; ?>
+                <?php echo !empty($busca) ? "Resultados para: <span class='text-indigo-400'>\"".htmlspecialchars($busca)."\"</span>" : "Catálogo em Destaque"; ?>
             </h2>
         </div>
 
@@ -170,10 +184,27 @@ $conn->close();
                 <?php foreach ($jogos as $jogo): ?>
                     <div class="group relative bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 hover:border-indigo-500/50 shadow-xl shadow-black/20 hover:shadow-indigo-500/10 transition-all duration-300 hover:-translate-y-2">
                         
+                        <?php if ($nome_usuario):
+                            $jogo_id = $jogo['id'];
+                            $esta_na_wishlist = isset($jogos_na_wishlist[$jogo_id]); 
+                            $icone_wishlist = $esta_na_wishlist ? '❤️' : '🤍'; 
+                            $title_text = $esta_na_wishlist ? 'Remover da Lista de Desejos' : 'Adicionar à Lista de Desejos';
+                        ?>
+                            <form action="processar_wishlist.php" method="POST" class="absolute top-4 right-4 z-20">
+                                <input type="hidden" name="jogo_id" value="<?php echo $jogo_id; ?>">
+                                <input type="hidden" name="redirect" value="home.php?status_wishlist=<?php echo $esta_na_wishlist ? 'removido' : 'adicionado'; ?>"> 
+                                
+                                <button type="submit" title="<?php echo $title_text; ?>" 
+                                        class="text-2xl hover:scale-110 transition leading-none drop-shadow-lg text-red-500 bg-black/40 p-1.5 rounded-full hover:bg-black/80 backdrop-blur-sm">
+                                    <?php echo $icone_wishlist; ?>
+                                </button>
+                            </form>
+                        <?php endif; ?>
+
                         <div class="relative aspect-[3/4] overflow-hidden">
                             <img class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" 
-                                 src="img/<?php echo htmlspecialchars($jogo['imagem_capa']); ?>" 
-                                 alt="<?php echo htmlspecialchars($jogo['titulo']); ?>">
+                                    src="img/<?php echo htmlspecialchars($jogo['imagem_capa']); ?>" 
+                                    alt="<?php echo htmlspecialchars($jogo['titulo']); ?>">
                             
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
 
@@ -196,7 +227,7 @@ $conn->close();
                                 </span>
                                 
                                 <a href="detalhe.php?id=<?php echo $jogo['id']; ?>" 
-                                   class="opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-300 bg-indigo-600 hover:bg-indigo-500 text-white p-2 rounded-lg shadow-lg">
+                                    class="opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-300 bg-indigo-600 hover:bg-indigo-500 text-white p-2 rounded-lg shadow-lg">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                                 </a>
                             </div>
@@ -218,4 +249,4 @@ $conn->close();
     </footer>
 
 </body>
-</html>
+</html>    
