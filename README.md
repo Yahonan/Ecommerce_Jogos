@@ -126,7 +126,7 @@ Certifique-se de ter um ambiente de desenvolvimento web configurado:
 | **`carrinho.php`** | **Processamento** | Lógica para gerenciar o carrinho de compras (adicionar, remover, aumentar/reduzir quantidade) utilizando a `$_SESSION`. |
 | **`processar_wishlist.php`** | **Processamento** | Lógica para adicionar ou remover jogos da lista de desejos (`wishlist` no DB). |
 | **`processar_avaliacao.php`**| **Processamento** | Lógica para registrar ou atualizar a avaliação (nota/comentário) do usuário no banco de dados. Utiliza `ON DUPLICATE KEY UPDATE`. |
-| **`processarCheckout.php`** | **Processamento** | Finaliza a compra. Calcula o total, insere o Pedido e os Itens do Pedido no DB e limpa o carrinho (`$_SESSION`). |
+| **`processar_pagamento.php`** | **Processamento** | Finaliza a compra. Calcula o total, insere o Pedido e os Itens do Pedido no DB e limpa o carrinho (`$_SESSION`). |
 | **`validaçãoCadastro.js`** | **JavaScript** | Validação de Formulário no cliente para `cadastro.php`. (E-mail válido, senhas coincidentes, mínimo de 5 caracteres). |
 | **`rating.js`** | **JavaScript** | Sistema Interativo de Avaliação (estrelas) para `detalhe.php`. |
 
